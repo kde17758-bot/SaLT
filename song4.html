@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shoot Me - DAY6</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: radial-gradient(circle at center, #111 60%, #000);
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .main { width: 100vw; height: 100vh; display: flex; flex-direction: column; }
+
+    .volume-section {
+      flex: 5; display: flex; justify-content: center; align-items: center;
+    }
+
+    .slider-container {
+      display: flex; flex-direction: column; align-items: center; margin: 0 5px;
+    }
+
+    .slider-container label {
+      font-size: 1rem; color: #ff8c42; text-shadow: 0 0 10px #ff8c42;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none; width: 38vh; height: 12px;
+      background: #333; border-radius: 10px;
+      transform: rotate(-90deg); cursor: pointer;
+      box-shadow: 0 0 10px #ff8c42;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 30px; height: 22px;
+      background: #ff8c42; border-radius: 50%; box-shadow: 0 0 15px #ff8c42;
+    }
+
+    .launchpad-section {
+      flex: 4; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; gap: 35px;
+    }
+
+    .lp-row { display: flex; justify-content: center; gap: 60px; }
+
+    .button {
+      width: 9vw; height: 9vw; max-width: 130px; max-height: 130px;
+      border-radius: 50%; background: #ff5722;
+      display: flex; justify-content: center; align-items: center;
+      color: #fff; font-size: 0.9rem; cursor: pointer;
+      box-shadow: 0 0 20px #ff5722;
+      text-align: center; padding: 10px;
+    }
+
+    .button:active {
+      transform: scale(0.9);
+      background: #ff9800; box-shadow: 0 0 25px #ff9800;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="main">
+    <div class="volume-section">
+      <div class="slider-container">
+        <label>Base</label>
+        <input type="range" min="0" max="1" step="0.01" value="0.7" data-audio="base">
+      </div>
+      <div class="slider-container">
+        <label>guitar</label>
+        <input type="range" min="0" max="1" step="0.01" value="0.7" data-audio="guitar">
+      </div>
+      <div class="slider-container">
+        <label>vocal</label>
+        <input type="range" min="0" max="1" step="0.01" value="0.7" data-audio="vocal">
+      </div>
+      <div class="slider-container">
+        <label>drums</label>
+        <input type="range" min="0" max="1" step="0.01" value="0.7" data-audio="drums">
+      </div>
+      <div class="slider-container">
+        <label>piano</label>
+        <input type="range" min="0" max="1" step="0.01" value="0.7" data-audio="piano">
+      </div>
+    </div>
+
+    <div class="launchpad-section">
+      <div class="lp-row">
+        <div class="button" data-sound="sound/sound41/boom.mp3"
+             data-video="video/video1.mp4" data-index="1">boom</div>
+        <div class="button" data-sound="sound/sound41/kick.mp3"
+             data-video="video/video2.mp4" data-index="2">kick</div>
+      </div>
+
+      <div class="lp-row">
+        <div class="button" data-sound="sound/sound41/pad.mp3"
+             data-video="video/video3.mp4" data-index="3">pad</div>
+        <div class="button" data-sound="sound/sound41/pluck.mp3"
+             data-video="video/video4.mp4" data-index="4">pluck</div>
+        <div class="button" data-sound="sound/sound41/shimmer.mp3"
+             data-video="video/video5.mp4" data-index="5">shimmer</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ============================================================
+      🔌 WebSocket 연결
+    ============================================================ */
+    const wsTD = new WebSocket('ws://192.168.0.2:7438');
+    wsTD.onopen = () => console.log("TD WebSocket 연결 성공");
+
+    const wsVideo = new WebSocket('ws://192.168.0.2:7437');
+    wsVideo.onopen = () => console.log("VIDEO WebSocket 연결 성공");
+
+    /* ---- TD 슬라이더 전송 함수 ---- */
+    function sendTD(obj) {
+      if (wsTD.readyState === WebSocket.OPEN) {
+        wsTD.send(JSON.stringify(obj));
+      }
+    }
+
+    /* ---- VIDEO 영상 전송 함수 ---- */
+    function sendVideo(obj) {
+      if (wsVideo.readyState === WebSocket.OPEN) {
+        wsVideo.send(JSON.stringify(obj));
+      }
+    }
+    /*===================================================
+    ========= 🎵 배경 트랙 로드 ======================
+    ====================================== */ 
+    const tracks = { 
+      base: 'sound/sound4/base.mp3', 
+      guitar: 'sound/sound4/guitar.mp3', 
+      vocal: 'sound/sound4/vocal.mp3', 
+      drums: 'sound/sound4/drums.mp3', 
+      piano: 'sound/sound4/piano.mp3', 
+    }; 
+    const audios = {}; 
+    let allStarted = false; 
+    
+    for (let key in tracks) { 
+      const audio = new Audio(tracks[key]); 
+      audio.loop = true; 
+      audio.volume = 0.7; 
+      audios[key] = audio; 
+    }
+
+    /* ============================================================ 
+    🎚 슬라이더 → 볼륨 반영 
+    ============================================================ */ 
+    function handleSliderChange(slider) { 
+      const key = slider.dataset.audio; 
+      if (audios[key]) audios[key].volume = Number(slider.value); 
+    }
+
+    /* ============================================================
+      🎚 슬라이더 → TD WebSocket (디바운스 50ms)
+    ============================================================ */
+    function createSliderData() {
+      const sliderData = {};
+      document.querySelectorAll('input[type="range"]').forEach(slider => {
+        sliderData[slider.dataset.audio] = Number(slider.value);
+      });
+      return sliderData;
+    }
+
+    let sliderSendTimer = null;
+
+    document.querySelectorAll('input[type="range"]').forEach(slider => {
+      slider.addEventListener('input', () => {
+
+        handleSliderChange(slider);
+
+        clearTimeout(sliderSendTimer);
+        sliderSendTimer = setTimeout(() => {
+          const data = createSliderData();
+          console.log("📤 TD로 WebSocket 전송:", data);
+          sendTD({ type: "sliderData", data });
+        }, 50);
+      });
+    });
+
+    /* ============================================================
+      🎵 첫 클릭 시 오디오 시작
+    ============================================================ */
+    document.body.addEventListener('click', () => {
+      if (allStarted) return;
+      allStarted = true;
+
+      for (let key in audios) audios[key].play();
+      sendTD({ type: 'tracksStarted'});
+    });
+
+    /* ============================================================
+      🟠 런치패드 버튼 → Video Only
+    ============================================================ */
+    document.querySelectorAll('.button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const videoPath = btn.dataset.video;
+        const videoIndex = btn.dataset.index;
+
+        // 🔥 영상 재생 명령만 보냄
+        sendVideo({
+          action: "playVideo",
+          videoPath,
+          videoIndex
+        });
+
+        // 클릭 이펙트
+        btn.style.background = '#ff9800';
+        btn.style.boxShadow = '0 0 25px #ff9800';
+        setTimeout(() => {
+          btn.style.background = '#ff5722';
+          btn.style.boxShadow = '0 0 20px #ff5722';
+        }, 200);
+      });
+    });
+
+
+  </script>
+
+</body>
+</html>
