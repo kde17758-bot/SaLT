@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Video Client</title>
+</head>
+<body style="margin: 0; background: black;">
+  <video id="video"
+         style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 9999;"
+         autoplay playsinline></video>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const myIndex = urlParams.get('index');
+    const videoEl = document.getElementById('video');
+
+    const ws = new WebSocket('ws://192.168.0.2:7437');
+
+    ws.onopen = () => {
+      console.log("✅ WebSocket 연결됨 (index = " + myIndex + ")");
+    };
+
+    ws.onmessage = async (msg) => {
+      let text;
+
+      // msg.data가 Blob인지 문자열인지 확인
+      if (msg.data instanceof Blob) {
+        text = await msg.data.text();  // Blob → 문자열 변환
+      } else {
+        text = msg.data;               // 이미 문자열이면 그대로 사용
+      }
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        console.error("❌ JSON 파싱 실패:", e);
+        return;
+      }
+
+      // 영상 재생 조건
+      if (data.action === 'playVideo' && data.videoIndex == myIndex) {
+        videoEl.src = data.videoPath;
+        videoEl.style.display = 'block';
+        videoEl.currentTime = 0;
+
+        videoEl.play()
+          .then(() => console.log("▶ 영상 재생 시작"))
+          .catch(err => console.error("❌ 영상 재생 실패:", err));
+
+        videoEl.onended = () => {
+          console.log("🎞 영상 끝!");
+          videoEl.style.display = 'none';
+        };
+      }
+    };
+  </script>
+</body>
+</html>
