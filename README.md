@@ -92,7 +92,56 @@ TouchDesigner는 SaLT의 시각적 핵심 시스템입니다.
 
 ---
 
-## Expected Outcomes
+## Team
+
+### 김다은 (Front-end Web & Back-end Engineer & Interactive System Developer)
+
+![김다은](assets/team/daeun.png)
+
+- Role: Front-end Web interface + Back-end Develop & Interactive System Develop
+- Tools: Pythons, Css, JavaScript, WebSocket
+- Contribution:
+  - 프론트엔드 웹 개발 및 백엔드 개발
+  - 전시용 웹 인터페이스 개발
+  - 전체적인 개발 환경 흐름 설계
+  - 실시간 데이터 전송 구축
+
+---
+
+### 배민서 (Exhibition Visual Designer)
+
+![배민서](assets/team/minseo.png)
+
+- Role: Exhibition Optimization
+- Tools: Canva, After Effect
+- Contribution:
+  - 웹사이트 배너 및 전시 포스터 제작 및 전시 공간 연출 
+  - 추가 음원 시각화 영상 제작
+ 
+---
+
+### 안하영 (Creative Project Manager)
+
+![안하영](assets/team/yeeun.png)
+
+- Role: isual Node Develop
+- Tools: After Effect
+- Contribution:
+  - 데이터 기반 인터랙티브 미디어 시스템 구현
+  - OSC In을 활용하여 실시간 데이터 연동 구조 구축
+ 
+---
+
+### 이예은 (Real-time Data-driven Media Art Designer)
+
+![이예](assets/team/hayeong.png)
+
+- Role: Exhibition Optimization
+- Tools: Touch Designer, OSC
+- Contribution:
+  - 추가 음원 시각화 영상 제작
+  - 다수의 디스플레이 배치와 동선을 고려한 디피 및 공간 연출
+
 
 ### Functional Outcomes
 
