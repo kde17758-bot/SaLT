@@ -99,7 +99,7 @@ TouchDesigner는 SaLT의 시각적 핵심 시스템입니다.
 ![김다은](assets/team/daeun.png)
 
 - Role: Front-end Web interface + Back-end Develop & Interactive System Develop
-- Tools: Pythons, Css, JavaScript, WebSocket
+- Tools: HTNL, Pythons, Css, JavaScript, WebSocket
 - Contribution:
   - 프론트엔드 웹 개발 및 백엔드 개발
   - 전시용 웹 인터페이스 개발
@@ -149,7 +149,7 @@ TouchDesigner는 SaLT의 시각적 핵심 시스템입니다.
 ### Functional Outcomes
 
 - 실시간 입력에 반응하는 시각 시스템 구현  
-- Python–OSC–TouchDesigner 연동 구조 확립  
+- HTML-JavaScript-Python–OSC In–TouchDesigner 연동 구조 확립  
 - 전시 환경에서 안정적인 실시간 데이터 송출  
 
 ### Experiential Outcomes
