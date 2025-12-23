@@ -5,7 +5,7 @@ SaLT는 관객의 조작을 실시간 사운드 데이터로 변환하고,
 인터랙티브 사운드 미디어 아트 전시 프로젝트입니다.
 
 본 작품은 전시 공간에서 관객이 단순한 감상자가 아닌,  
-사운드와 빛을 조형하는 참여자가 되는 경험을 제공합니다.
+사운드와 연출을 조형하는 제작자가 되는 경험을 제공합니다.
 
 ---
 
@@ -28,7 +28,7 @@ SaLT는 웹 인터페이스를 통해 입력된 관객의 조작 데이터를
 3. 입력 데이터 실시간 전송  
 4. 시각 시스템에서 데이터 처리  
 5. 사운드에 반응하는 미디어 아트 출력  
-6. 관객의 조작으로 하나의 장면 완성  
+6. 관객의 조작으로 하나의 무대 완성  
 
 ---
 
@@ -120,7 +120,7 @@ TouchDesigner는 SaLT의 시각적 핵심 시스템입니다.
  
 ---
 
-### 안하영 (Creative Project Manager)
+### 안하영 (Real-time Data-driven Media Art Designer)
 
 ![안하영](assets/team/yeeun.png)
 
@@ -132,9 +132,9 @@ TouchDesigner는 SaLT의 시각적 핵심 시스템입니다.
  
 ---
 
-### 이예은 (Real-time Data-driven Media Art Designer)
+### 이예은 (Creative Project Manager)
 
-![이예](assets/team/hayeong.png)
+![이예은](assets/team/hayeong.png)
 
 - Role: Exhibition Optimization
 - Tools: Touch Designer, OSC
