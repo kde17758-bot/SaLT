@@ -122,7 +122,7 @@ TouchDesigner는 SaLT의 시각적 핵심 시스템입니다.
 
 ### 안하영 (Real-time Data-driven Media Art Designer)
 
-![안하영](assets/team/hayoung.png)
+![안하영](assets/team/hayeong.png)
 
 - Role: Visual Node Develop
 - Tools: Touch Designer, OSC
