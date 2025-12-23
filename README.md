@@ -125,7 +125,7 @@ TouchDesigner는 SaLT의 시각적 핵심 시스템입니다.
 ![안하영](assets/team/yeeun.png)
 
 - Role: isual Node Develop
-- Tools: After Effect
+- Tools: Touch Designer, OSC
 - Contribution:
   - 데이터 기반 인터랙티브 미디어 시스템 구현
   - OSC In을 활용하여 실시간 데이터 연동 구조 구축
@@ -137,7 +137,7 @@ TouchDesigner는 SaLT의 시각적 핵심 시스템입니다.
 ![이예은](assets/team/hayeong.png)
 
 - Role: Exhibition Optimization
-- Tools: Touch Designer, OSC
+- Tools: Affter Effect
 - Contribution:
   - 추가 음원 시각화 영상 제작
   - 다수의 디스플레이 배치와 동선을 고려한 디피 및 공간 연출
